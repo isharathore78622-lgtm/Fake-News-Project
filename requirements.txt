@@ -1,0 +1,14 @@
+numpy
+pandas
+scikit-learn
+matplotlib
+seaborn
+nltk
+spacy
+joblib
+fastapi
+uvicorn
+streamlit
+transformers
+datasets
+torch
