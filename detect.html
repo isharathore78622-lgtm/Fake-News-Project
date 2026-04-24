@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Fake News Detector</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+}
+
+/* BACKGROUND */
+body::before {
+    content: "";
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: url("{{ url_for('static', filename='fake-news-detection.webp') }}") no-repeat center;
+    background-size: cover;
+    opacity: 0.12;
+    filter: blur(3px);
+    animation: zoomBg 20s infinite alternate ease-in-out;
+    z-index: -1;
+}
+
+@keyframes zoomBg {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+}
+
+/* NAVBAR */
+
+
+.logo {
+    font-weight: 600;
+    color: #3b82f6;
+}
+
+
+
+.user {
+    margin-left: 15px;
+    font-weight: 500;
+}.navbar {
+    display: flex;
+    justify-content: space-between;  /* 🔥 SAME AS HOME */
+    align-items: center;
+    padding: 15px 40px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: 600;
+    color: #3b82f6;
+}
+
+.nav-links a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    color: #3b82f6;
+}
+
+/* HERO */
+.hero {
+    text-align: center;
+    padding: 30px 20px;
+}
+
+.hero small {
+    color: #3b82f6;
+    letter-spacing: 2px;
+    font-weight: 600;
+}
+
+.hero h1 {
+    font-size: 32px;
+    margin: 10px 0;
+}
+
+.hero p {
+    color: #6b7280;
+}
+
+/* CARD */
+.card {
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(12px);
+    width: 90%;
+    max-width: 420px;
+    margin: auto;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+}
+
+/* TOGGLE */
+.toggle {
+    display: flex;
+    background: #eef2f7;
+    border-radius: 25px;
+    padding: 4px;
+    margin-bottom: 15px;
+}
+
+.toggle button {
+    flex: 1;
+    border: none;
+    padding: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.toggle .active {
+    background: #3b82f6;
+    color: white;
+}
+
+/* INPUT */
+textarea, input {
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid #d1d5db;
+    padding: 12px;
+    margin-bottom: 10px;
+}
+
+/* BUTTON */
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(to right, #3b82f6, #60a5fa);
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+/* ERROR */
+.error {
+    color: red;
+    text-align: center;
+}
+
+/* ================= POPUP ================= */
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+    z-index: 999;
+}
+
+.modal-content {
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(15px);
+
+    padding: 25px;
+    border-radius: 20px;
+    width: 320px;
+    text-align: center;
+
+    animation: popup 0.4s ease;
+}
+
+@keyframes popup {
+    from {
+        transform: translateY(30px) scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-buttons {
+    margin-top: 15px;
+}
+
+.login-btn, .guest-btn {
+    display: block;
+    margin: 10px auto;
+    padding: 12px;
+    border-radius: 10px;
+    width: 80%;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.login-btn {
+    background: linear-gradient(to right, #3b82f6, #60a5fa);
+    color: white;
+}
+
+.guest-btn {
+    background: #e5e7eb;
+    border: none;
+    cursor: pointer;
+}
+.avatar {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 35px;
+    height: 35px;
+
+    border-radius: 50%;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+
+    margin-left: 10px;
+}
+
+.avatar:hover {
+    opacity: 0.8;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+    <div class="logo">Fake News Detector</div>
+
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <!-- <a href="/detect">Check News</a> -->
+        <a href="/history">History</a>
+
+        {% if session.get('user') %}
+            <a href="/logout">Logout</a>
+
+            <!-- ICON LAST -->
+            <a href="/profile" class="avatar" title="{{ session.get('user') }}">
+                {{ session.get('user')[0] | upper }}
+            </a>
+        {% else %}
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+        {% endif %}
+    </div>
+
+</div>
+
+<!-- HERO -->
+<div class="hero">
+    <small>INSTANT ANALYSIS</small>
+    <h1>Check Any News Article</h1>
+    <p>Paste the article text, URL, or upload image.</p>
+    {% if not session.get('user_id') %}
+<p style="text-align:center; color:#b91c1c;">
+    ⚠️ Guest mode: 3 checks/day | Login for full access
+</p>
+{% endif %}
+</div>
+
+<!-- CARD -->
+<div class="card">
+
+    
+{% if error %}
+<p class="error">{{ error }}</p>
+{% endif %}
+
+<div class="toggle">
+    <button id="textBtn" class="active" onclick="showText()">Paste Text</button>
+    <button id="urlBtn" onclick="showURL()">Enter URL</button>
+</div>
+
+<form action="/predict" method="POST" enctype="multipart/form-data">
+
+<textarea id="textInput" name="news" rows="5" placeholder="Paste your news here..."></textarea>
+
+<input type="text" id="urlInput" name="url" placeholder="Enter URL..." style="display:none;">
+
+<input type="file" name="image">
+
+<button type="submit" class="btn">Check</button>
+
+</form>
+
+</div>
+
+<!-- 🔥 PREMIUM POPUP -->
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+
+    <h2>Save Your History</h2>
+    <p>Login to store your detection history.</p>
+
+    <div class="modal-buttons">
+        <a href="/login" class="login-btn">Login</a>
+        <button onclick="continueGuest()" class="guest-btn">Use as Guest</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function showText() {
+    textInput.style.display = "block";
+    urlInput.style.display = "none";
+}
+
+function showURL() {
+    textInput.style.display = "none";
+    urlInput.style.display = "block";
+}
+
+function continueGuest() {
+    document.getElementById("loginModal").style.display = "none";
+}
+
+/* POPUP LOGIC */
+window.onload = function () {
+    let isLoggedIn = "{{ session.get('user_id') or '' }}";
+
+    if (isLoggedIn === "") {
+        document.getElementById("loginModal").style.display = "flex";
+    }
+};
+</script>
+
+</body>
+</html>

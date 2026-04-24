@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+/* MAIN CONTAINER */
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* LEFT IMAGE */
+.left {
+    width: 50%;
+    background: #f4f7fb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.left img {
+    width: 80%;
+}
+
+/* RIGHT FORM */
+.right {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #eef2f7;
+}
+
+/* FORM BOX */
+.form-box {
+    width: 320px;
+    text-align: center;
+}
+
+/* TITLE */
+h2 {
+    margin-bottom: 10px;
+}
+
+/* ERROR MESSAGE */
+.error {
+    color: #dc2626;
+    background: #fee2e2;
+    padding: 8px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+/* INPUT */
+input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background: #f9fafb;
+    transition: 0.3s;
+}
+
+input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 6px rgba(59,130,246,0.3);
+    outline: none;
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(to right, #3b82f6, #60a5fa);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.03);
+}
+
+/* LINK */
+a {
+    display: block;
+    margin-top: 12px;
+    color: #3b82f6;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* MOBILE */
+@media(max-width: 768px) {
+    .left {
+        display: none;
+    }
+    .right {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- LEFT IMAGE -->
+    <div class="left">
+        <img src="{{ url_for('static', filename='fake-news-detection.webp') }}">
+    </div>
+
+    <!-- RIGHT FORM -->
+    <div class="right">
+        <div class="form-box">
+
+            <h2>Login</h2>
+
+            <!-- ERROR MESSAGE -->
+            {% if msg %}
+            <div class="error">{{ msg }}</div>
+            {% endif %}
+
+            <form method="POST">
+
+                <input type="email" name="email" placeholder="Email" required>
+
+                <input type="password" name="password" placeholder="Password" required>
+
+                <button type="submit">Login</button>
+
+            </form>
+
+            <a href="/register">Don't have an account? Register</a>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

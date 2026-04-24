@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>User Profile</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f4f7fb;
+}
+
+/* HEADER */
+.header {
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: white;
+    text-align: center;
+    padding: 40px 20px 60px;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+}
+
+/* PROFILE IMAGE */
+.avatar {
+    width: 80px;
+    height: 80px;
+    background: white;
+    border-radius: 50%;
+    margin: -40px auto 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color: #6a11cb;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* CARD */
+.card {
+    background: white;
+    width: 90%;
+    max-width: 400px;
+    margin: auto;
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* ROW */
+.row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* STATS */
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+}
+
+.stat {
+    text-align: center;
+}
+
+.real { color: #16a34a; }
+.fake { color: #dc2626; }
+
+/* BUTTON */
+.btn {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    padding: 12px;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <h2>{{ user_name }}</h2>
+</div>
+
+<!-- AVATAR -->
+<div class="avatar">
+    👤
+</div>
+
+<!-- PROFILE CARD -->
+<div class="card">
+
+    <div class="row">
+        <span><b>Name</b></span>
+        <span>{{ user_name }}</span>
+    </div>
+
+    <div class="row">
+        <span><b>Email</b></span>
+        <span>{{ user_email }}</span>
+    </div>
+
+    <div class="row">
+        <span><b>Total Checks</b></span>
+        <span>{{ total_checks }}</span>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats">
+        <div class="stat real">
+            <b>{{ real_count }}</b><br>Real
+        </div>
+        <div class="stat fake">
+            <b>{{ fake_count }}</b><br>Fake
+        </div>
+    </div>
+    <div style="margin-top:20px;">
+
+    <a href="/history" class="btn" style="background:#10b981;">
+        View History
+    </a>
+
+    <a href="/detect" class="btn" style="background:#3b82f6;">
+        Check News
+    </a>
+
+    <a href="/logout" class="btn">
+        Logout
+    </a>
+
+</div>
+    <!-- BUTTON -->
+    <!-- <a href="/logout" class="btn">Logout</a> -->
+
+</div>
+
+</body>
+</html>

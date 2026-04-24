@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashboard</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #f4f7fb;
+}
+
+/* NAVBAR */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: rgba(255,255,255,0.9);
+}
+
+.logo {
+    font-weight: 600;
+    color: #3b82f6;
+}
+
+.nav-links a {
+    margin-left: 15px;
+    text-decoration: none;
+    color: #333;
+}
+
+/* MAIN */
+.container {
+    text-align: center;
+    margin-top: 80px;
+}
+
+/* CARD */
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    width: 350px;
+    margin: auto;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* BUTTONS */
+.btn {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.primary {
+    background: linear-gradient(to right, #3b82f6, #60a5fa);
+    color: white;
+}
+
+.secondary {
+    background: #e5e7eb;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="logo">Fake News Detector</div>
+
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/detect">Check News</a>
+        <a href="/history">History</a>
+
+        {% if session.get('user') %}
+            <span>Hi, {{ session.get('user') }} 👋</span>
+            <a href="/logout">Logout</a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+    <div class="card">
+
+        <h2>Welcome {{ session.get('user') }}</h2>
+
+        <p>You can start detecting fake news or view your history.</p>
+
+        <button class="btn primary" onclick="location.href='/detect'">
+            🔍 Check News
+        </button>
+
+        <button class="btn secondary" onclick="location.href='/history'">
+            📊 View History
+        </button>
+
+    </div>
+
+</div>
+
+</body>
+</html>

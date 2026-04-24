@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Result</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+}
+
+/* BACKGROUND */
+body::before {
+    content: "";
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: url("{{ url_for('static', filename='fake-news-detection.webp') }}") no-repeat center;
+    background-size: cover;
+    opacity: 0.12;
+    filter: blur(3px);
+    animation: zoomBg 20s infinite alternate ease-in-out;
+    z-index: -1;
+}
+body {
+    font-family: Arial;
+    background: #f4f7fb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* CARD */
+.card {
+    padding: 30px;
+    border-radius: 15px;
+    width: 400px;
+    text-align: center;
+    transition: 0.3s ease;
+}
+
+/* 🔥 DYNAMIC BACKGROUND */
+.card.real {
+    background: #ecfdf5;
+    border: 2px solid #16a34a;
+}
+
+.card.fake {
+    background: #fef2f2;
+    border: 2px solid #dc2626;
+}
+
+.card.suspicious {
+    background: #fffbeb;
+    border: 2px solid #f59e0b;
+}
+
+/* RESULT TEXT */
+.result {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 15px 0;
+}
+
+/* COLORS */
+.real { color: #16a34a; }
+.fake { color: #dc2626; }
+.suspicious { color: #f59e0b; }
+
+/* CONFIDENCE BAR */
+.bar {
+    width: 100%;
+    background: #ddd;
+    border-radius: 10px;
+    margin: 10px 0;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 10px;
+    border-radius: 10px;
+}
+
+/* 🔥 BAR COLORS */
+.bar-fill.real { background: #16a34a; }
+.bar-fill.fake { background: #dc2626; }
+.bar-fill.suspicious { background: #f59e0b; }
+
+/* REASON BOX */
+.reason-box {
+    background: #f1f5f9;
+    padding: 12px;
+    margin-top: 15px;
+    border-radius: 10px;
+    text-align: left;
+    font-size: 14px;
+}
+
+/* BUTTON */
+a {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 18px;
+    background: #3b82f6;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🔥 DYNAMIC CLASS -->
+<div class="card {{ prediction_class }}">
+
+<h2>Prediction Result</h2>
+
+<p><b>News:</b> {{ news }}</p>
+
+<!-- RESULT -->
+{% if prediction == "Real News" %}
+    <div class="result real">
+        ✅ Real News
+    </div>
+
+{% elif prediction == "Fake News" %}
+    <div class="result fake">
+        ❌ Fake News
+    </div>
+
+{% elif prediction == "Suspicious" %}
+    <div class="result suspicious">
+        ⚠️ Suspicious ({{ sub_label }})
+    </div>
+
+{% else %}
+    <div class="result">
+        {{ prediction }}
+    </div>
+{% endif %}
+
+<!-- 🔥 PROGRESS BAR -->
+<div class="bar">
+    <div class="bar-fill {{ prediction_class }}" style="width: {{ confidence }}%"></div>
+</div>
+
+<p><b>Confidence:</b> {{ confidence }}%</p>
+
+<!-- REASON -->
+<div class="reason-box">
+    <strong>Why this result?</strong>
+    <ul>
+        <li>{{ reason }}</li>
+    </ul>
+</div>
+
+<a href="/detect">Check Another</a>
+
+</div>
+
+</body>
+</html>

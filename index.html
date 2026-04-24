@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Fake News Detection System</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(to bottom, #f4f7fb, #eef2f7);
+}
+
+/* NAVBAR */
+.navbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px 30px;
+    background: white;
+}
+
+.nav-links a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+/* AVATAR */
+.avatar {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 35px;
+    height: 35px;
+
+    border-radius: 50%;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+
+    margin-left: 10px;
+}
+
+.avatar:hover {
+    opacity: 0.8;
+}
+
+/* HERO */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 60px 10%;
+}
+
+.hero-text {
+    max-width: 500px;
+}
+
+.hero-text h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+.hero-text p {
+    color: #6b7280;
+    margin-bottom: 20px;
+}
+
+/* BUTTON */
+.btn {
+    padding: 12px 25px;
+    background: linear-gradient(to right, #3b82f6, #60a5fa);
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+/* IMAGE */
+.hero img {
+    width: 450px;
+}
+
+/* FEATURES */
+.features {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.features h2 {
+    margin-bottom: 30px;
+}
+
+.feature-box {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.feature {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    width: 250px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: 0.3s;
+}
+
+.feature:hover {
+    transform: translateY(-5px);
+}
+
+/* USER GREETING */
+.greet {
+    color: #3b82f6;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* RESPONSIVE */
+@media(max-width: 768px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero img {
+        width: 300px;
+        margin-top: 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+    <div class="nav-links">
+
+        <a href="/">Home</a>
+        <a href="/detect">Check News</a>
+        <a href="/history">History</a>
+        <!-- <a href="/profile">Profile</a> -->
+
+        {% if session.get('user') %}
+            <a href="/logout">Logout</a>
+
+            <!-- 🔥 ICON AT LAST -->
+            <a href="/profile" class="avatar" title="{{ session.get('user') }}">
+                {{ session.get('user')[0] | upper }}
+            </a>
+        {% else %}
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+        {% endif %}
+
+    </div>
+
+</div>
+
+<!-- HERO -->
+<div class="hero">
+
+    <div class="hero-text">
+
+        {% if session.get('user') %}
+            <div class="greet">Welcome back, {{ session.get('user') }} 👋</div>
+        {% endif %}
+
+        <h1>Detect Fake News Instantly</h1>
+
+        <p>
+            Analyze news using AI. Paste text, enter a URL, or upload an image
+            and get instant verification results.
+        </p>
+
+        <a href="/detect" class="btn">🔍 Check News</a>
+    </div>
+
+    <img src="{{ url_for('static', filename='fake-news-detection.webp') }}">
+</div>
+
+<!-- FEATURES -->
+<div class="features">
+    <h2>Why Use Our System?</h2>
+
+    <div class="feature-box">
+
+        <div class="feature">
+            <h3>⚡ Fast Detection</h3>
+            <p>Instant results powered by AI.</p>
+        </div>
+
+        <div class="feature">
+            <h3>📄 Multiple Inputs</h3>
+            <p>Text, URL, or image support.</p>
+        </div>
+
+        <div class="feature">
+            <h3>📊 Smart History</h3>
+            <p>Track and analyze your checks.</p>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
