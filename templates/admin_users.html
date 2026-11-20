@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>All Users</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #eef2f7;
+}
+
+/* HEADER */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+}
+
+.header h2 {
+    margin: 0;
+}
+
+.back-btn {
+    background: linear-gradient(to right, #6366f1, #8b5cf6);
+    color: white;
+    padding: 10px 16px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* CONTAINER */
+.container {
+    padding: 20px 40px;
+}
+
+/* CARD */
+.card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+/* TABLE */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    text-align: left;
+    padding: 14px;
+    background: #f1f5f9;
+    font-weight: 600;
+}
+
+td {
+    padding: 14px;
+    border-top: 1px solid #eee;
+}
+
+/* ROW HOVER */
+tr:hover {
+    background: #f9fafb;
+}
+
+/* BADGE */
+.badge {
+    background: #e0e7ff;
+    color: #4338ca;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h2>👥 All Users</h2>
+    <a href="/admin" class="back-btn">← Back to Dashboard</a>
+</div>
+
+<div class="container">
+
+    <div class="card">
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+
+            {% for user in users %}
+<tr>
+
+    <td><span class="badge">#{{ user[0] }}</span></td>
+
+    <td>{{ user[1] }}</td>
+
+    <td>{{ user[2] }}</td>
+
+    <td>
+
+        {% if user[3] == "admin" %}
+            <span style="
+                background:#dcfce7;
+                color:#15803d;
+                padding:5px 10px;
+                border-radius:8px;
+                font-size:12px;">
+                Admin
+            </span>
+        {% else %}
+            <span style="
+                background:#dbeafe;
+                color:#1d4ed8;
+                padding:5px 10px;
+                border-radius:8px;
+                font-size:12px;">
+                User
+            </span>
+        {% endif %}
+
+    </td>
+
+    <td>
+
+        {% if user[3] != "admin" %}
+
+        <a
+            href="/delete_user/{{ user[0] }}"
+            onclick="return confirm('Delete this user permanently?')"
+            style="
+                background:#ef4444;
+                color:white;
+                padding:8px 12px;
+                border-radius:8px;
+                text-decoration:none;
+                font-size:13px;">
+            Delete
+        </a>
+
+        {% else %}
+
+        <span style="color:#16a34a;font-weight:600;">
+            Protected
+        </span>
+
+        {% endif %}
+
+    </td>
+
+</tr>
+{% endfor %}
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>
